@@ -83,6 +83,7 @@
             border-radius: 8px;
             box-shadow: 0 0 8px rgba(255, 215, 0, 0.5);
             font-family: 'Poppins', sans-serif;
+            display: none;
         }
         img {
             width: 180px;
@@ -114,7 +115,7 @@
         
         <button onclick="calculateBail()">Calculate</button>
         
-        <div class="results">
+        <div class="results" id="resultsContainer">
             <h3 id="result"></h3>
             <h3 id="daysLeft"></h3>
             <h3 id="bailDaysUsed"></h3>
@@ -160,6 +161,7 @@
             let monthsToAdd = parseInt(document.getElementById('extensionLevel').value, 10);
             let bailEndDate = new Date(bailStart);
             bailEndDate.setMonth(bailEndDate.getMonth() + monthsToAdd);
+            document.getElementById('resultsContainer').style.display = 'block';
             
             const cpsPauses = document.getElementById('cpsPauses').value.split(',').map(date => parseDate(date.trim())).filter(date => date);
             let cpsResumes = document.getElementById('cpsResumes').value.split(',').map(date => parseDate(date.trim())).filter(date => date);
