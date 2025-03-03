@@ -10,7 +10,7 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #002664;
+            background: linear-gradient(135deg, #001a4d, #0044cc);
             color: white;
             display: flex;
             justify-content: center;
@@ -36,14 +36,22 @@
             display: block;
             width: 90%;
             margin: 10px auto;
-            padding: 8px;
-            border: 1px solid #FFD700;
-            border-radius: 5px;
+            padding: 10px;
+            border: 2px solid #FFD700;
+            border-radius: 8px;
             text-align: center;
             font-family: Arial, sans-serif;
-            font-size: 14px;
-            background-color: white;
+            font-size: 16px;
+            background-color: #fff;
             color: black;
+            transition: all 0.3s ease-in-out;
+            box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+        input:focus, select:focus {
+            border-color: #FFC107;
+            box-shadow: 0 0 8px rgba(255, 215, 0, 0.8);
+            outline: none;
+            transform: scale(1.02);
         }
         button {
             padding: 10px;
@@ -57,10 +65,19 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            transition: background 0.3s;
+            transition: all 0.3s ease-in-out;
         }
         button:hover {
             background-color: #FFC107;
+            transform: scale(1.05);
+        }
+        .results {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(255, 215, 0, 0.2);
+            border: 2px solid #FFD700;
+            border-radius: 8px;
+            box-shadow: 0 0 8px rgba(255, 215, 0, 0.5);
         }
         img {
             width: 180px;
@@ -73,7 +90,7 @@
         <img src="https://i.imgur.com/CMmOrKE.png" alt="Staffordshire Police Logo">
         <h2>Staffordshire Police Bail Calculator</h2>
         <label for="bailStart">Bail Start Date:</label>
-        <input type="date" id="bailStart" style="padding: 8px; font-size: 14px;">
+        <input type="date" id="bailStart" style="padding: 10px; font-size: 16px;">
         
         <label for="cpsPauses">CPS Pause Periods:</label>
         <small>Comma-separated dates in DD/MM/YYYY format</small>
@@ -84,7 +101,7 @@
         <input type="text" id="cpsResumes" placeholder="DD/MM/YYYY, DD/MM/YYYY" onblur="validateDateInput('cpsResumes')">
         
         <label for="extensionLevel">Bail Authorisation Level:</label>
-        <select id="extensionLevel" style="width: auto; min-width: 100px; padding: 8px; font-size: 13px;">
+        <select id="extensionLevel" style="width: auto; min-width: 100px; padding: 10px; font-size: 16px;">
             <option value="3" selected>Sergeant</option>
             <option value="6">Inspector (+3 months)</option>
             <option value="9">Superintendent (+6 months)</option>
@@ -92,10 +109,12 @@
         
         <button onclick="calculateBail()">Calculate</button>
         
-        <h3 id="result"></h3>
-        <h3 id="daysLeft"></h3>
-        <h3 id="bailDaysUsed"></h3>
-        <h3 id="bailEndDate"></h3>
+        <div class="results">
+            <h3 id="result"></h3>
+            <h3 id="daysLeft"></h3>
+            <h3 id="bailDaysUsed"></h3>
+            <h3 id="bailEndDate"></h3>
+        </div>
     </div>
 
     <script>
