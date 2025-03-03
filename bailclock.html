@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" href="https://bit.ly/43lzyZc" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bail Calculator | Staffordshire Police</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #002664;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+        }
+        .container {
+            max-width: 500px;
+            padding: 20px;
+            border: 2px solid #FFD700;
+            border-radius: 10px;
+            background-color: #1C3F94;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        label, input, button, select {
+            text-align: center;
+            display: block;
+            width: 90%;
+            margin: 10px auto;
+        }
+        input[type="date"], input[type="text"], select {
+            display: block;
+            width: 90%;
+            margin: 10px auto;
+            padding: 8px;
+            border: 1px solid #FFD700;
+            border-radius: 5px;
+            text-align: center;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            background-color: white;
+            color: black;
+        }
+        button {
+            padding: 10px;
+            font-size: 13px;
+            width: auto;
+            min-width: 100px;
+            margin: 10px auto;
+            background-color: #FFD700;
+            color: black;
+            font-weight: bold;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background-color: #FFC107;
+        }
+        img {
+            width: 180px;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="https://bit.ly/3F2xDyw" alt="Staffordshire Police Logo" loading="eager">
+        <h2>Staffordshire Police Bail Calculator</h2>
+        <label for="bailStart">Bail Start Date:</label>
+        <input type="date" id="bailStart" style="padding: 8px; font-size: 14px;">
+        
+        <label for="cpsPauses">CPS Pause Periods:</label>
+        <small>Comma-separated dates in DD/MM/YYYY format</small>
+        <input type="text" id="cpsPauses" placeholder="DD/MM/YYYY, DD/MM/YYYY" onblur="validateDateInput('cpsPauses')">
+        
+        <label for="cpsResumes">CPS Resume Periods:</label>
+        <small>Comma-separated dates in DD/MM/YYYY format</small>
+        <input type="text" id="cpsResumes" placeholder="DD/MM/YYYY, DD/MM/YYYY" onblur="validateDateInput('cpsResumes')">
+        
+        <label for="extensionLevel">Bail Authorisation Level:</label>
+        <select id="extensionLevel" style="width: auto; min-width: 100px; padding: 8px; font-size: 13px;">
+            <option value="3" selected>Sergeant</option>
+            <option value="6">Inspector (+3 months)</option>
+            <option value="9">Superintendent (+6 months)</option>
+        </select>
+        
+        <button onclick="calculateBail()">Calculate</button>
+        
+        <h3 id="result"></h3>
+        <h3 id="daysLeft"></h3>
+        <h3 id="bailDaysUsed"></h3>
+        <h3 id="bailEndDate"></h3>
+    </div>
+
+    <script>
+        function parseDate(input) {
+            const parts = input.split("/");
+            if (parts.length !== 3) return null;
+            return new Date(parts[2], parts[1] - 1, parts[0]);
+        }
+
+        function validateDateInput(inputId) {
+            const inputField = document.getElementById(inputId);
+            const dates = inputField.value.split(',').map(date => date.trim());
+            const datePattern = /^\d{2}\/\d{2}\/\d{4}$/;
+
+            for (let date of dates) {
+                if (date && !datePattern.test(date)) {
+                    inputField.style.border = "2px solid red";
+                    alert("Invalid date format in " + inputId + ". Please use DD/MM/YYYY.");
+                    return;
+                }
+            }
+            inputField.style.border = "1px solid #FFD700";
+        }
+
+        function calculateBail() {
+            const today = new Date();
+            const bailStartInput = document.getElementById('bailStart').value;
+            if (!bailStartInput) {
+                 alert("Please enter a valid start date");
+                return;
+            }
+            const bailStart = new Date(bailStartInput);
+            if (bailStart > today) {
+                alert("Bail start date cannot be in the future.");
+                return;
+            }
+            
+            let monthsToAdd = parseInt(document.getElementById('extensionLevel').value, 10);
+            let bailEndDate = new Date(bailStart);
+            bailEndDate.setMonth(bailEndDate.getMonth() + monthsToAdd);
+            
+            const cpsPauses = document.getElementById('cpsPauses').value.split(',').map(date => parseDate(date.trim())).filter(date => date);
+            let cpsResumes = document.getElementById('cpsResumes').value.split(',').map(date => parseDate(date.trim())).filter(date => date);
+            
+            for (let date of [...cpsPauses, ...cpsResumes]) {
+                if (date > today) {
+                    alert("No dates can be in the future.");
+                    return;
+                }
+            }
+            
+            while (cpsResumes.length < cpsPauses.length) {
+                cpsResumes.push(new Date());
+            }
+            
+            let totalPauseDays = 0;
+            for (let i = 0; i < cpsPauses.length; i++) {
+                if (cpsPauses[i] && cpsResumes[i] && cpsPauses[i] <= cpsResumes[i]) {
+                    totalPauseDays += Math.floor((cpsResumes[i] - cpsPauses[i]) / (1000 * 60 * 60 * 24));
+                }
+            }
+            bailEndDate.setDate(bailEndDate.getDate() + totalPauseDays);
+            
+            let daysLeft = Math.floor((bailEndDate - today) / (1000 * 60 * 60 * 24));
+            let bailDaysUsed = Math.floor((today - bailStart) / (1000 * 60 * 60 * 24)) - totalPauseDays;
+            daysLeft = daysLeft < 0 ? 0 : daysLeft;
+            
+            document.getElementById('result').innerText = `Total days with CPS: ${totalPauseDays} days`;
+            document.getElementById('daysLeft').innerText = `Days Left in Bail Period: ${daysLeft} days`;
+            document.getElementById('bailDaysUsed').innerText = `Bail Days Used: ${bailDaysUsed} days`;
+            document.getElementById('bailEndDate').innerText = `Bail Period Ends: ${bailEndDate.toLocaleDateString('en-GB')}`;
+        }
+    </script>
+</body>
+</html>
