@@ -187,12 +187,19 @@
             
             let daysLeft = Math.floor((bailEndDate - today) / (1000 * 60 * 60 * 24));
             let bailDaysUsed = Math.floor((today - bailStart) / (1000 * 60 * 60 * 24)) - totalPauseDays;
-            daysLeft = daysLeft < 0 ? 0 : daysLeft;
+
+            if (daysLeft < 0) {
+                document.getElementById('daysLeft').innerText = `Days Since Bail Period Expired: ${Math.abs(daysLeft)} days`;
+            } else {
+                document.getElementById('daysLeft').innerText = `Days Left in Bail Period: ${daysLeft} days`;
+            }
+
+
+
             
             document.getElementById('result').innerText = `Total days with CPS: ${totalPauseDays} days`;
-            document.getElementById('daysLeft').innerText = `Days Left in Bail Period: ${daysLeft} days`;
             document.getElementById('bailDaysUsed').innerText = `Bail Days Used: ${bailDaysUsed} days`;
-            document.getElementById('bailEndDate').innerText = `Bail Period Ends: ${bailEndDate.toLocaleDateString('en-GB')}`;
+            document.getElementById('bailEndDate').innerText = `Bail Period Ended On: ${bailEndDate.toLocaleDateString('en-GB')}`;
         }
     </script>
 </body>
