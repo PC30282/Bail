@@ -1,0 +1,19 @@
+{
+  "name": "Bail Calculator",
+  "short_name": "BailCalc",
+  "icons": [
+    {
+      "src": "https://i.imgur.com/ZIzPOnQ.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://i.imgur.com/ZIzPOnQ.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#002664",
+  "background_color": "#1e2737",
+  "display": "standalone"
+}
