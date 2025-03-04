@@ -3,12 +3,12 @@
   "short_name": "Bail Calc",
   "icons": [
     {
-      "src": "https://i.imgur.com/ZIzPOnQ.png",
+      "src": "images/SP-Bail-Logo.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "https://i.imgur.com/ZIzPOnQ.png",
+      "src": "images/SP-Bail-Logo.png",
       "sizes": "512x512",
       "type": "image/png"
     }
