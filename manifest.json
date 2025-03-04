@@ -1,19 +1,35 @@
 {
   "name": "Bail Calculator",
   "short_name": "Bail Calc",
+  "description": "Staffordshire Police Bail Calculator",
   "icons": [
     {
-      "src": "images/SP-Bail-Logo.png",
+      "src": "images/SP-Bail-logo.png",
       "sizes": "1024x1024",
       "type": "image/png"
     },
     {
-      "src": "images/SP-Bail-Logo.png",
+      "src": "images/SP-Bail-logo.png",
       "sizes": "1024x1024",
       "type": "image/png"
     }
   ],
-  "theme_color": "#002664",
-  "background_color": "#1e2737",
-  "display": "standalone"
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#002664",
+  "theme_color": "#1e2737",
+  "screenshots": [
+    {
+      "src": "images/screenshot-mobile.png",
+      "sizes": "1080x1920",
+      "type": "image/png",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "images/screenshot-desktop.png",
+      "sizes": "1920x1080",
+      "type": "image/png",
+      "form_factor": "wide"
+    }
+  ]
 }
