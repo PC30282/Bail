@@ -11,7 +11,7 @@
     <title>Bail Calculator | Staffordshire Police</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
-        input[type="text"], 
+       input[type="text"], 
         input[type="date"], 
         select {
             width: 90%;
@@ -23,7 +23,7 @@
             font-size: 16px;
             background-color: #fff;
             color: black;
-            transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            transition: all 0.3s ease-in-out;
             box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
             display: block;
         }
@@ -36,10 +36,10 @@
             transform: scale(1.02);
         }
         
-        input:blur, 
-        select:blur {
-            width: 90%; /* Ensures width does not shrink after losing focus */
+        input, select {
+            border-width: 2px !important; /* Forces border width to remain consistent */
         }
+
 
 
         
